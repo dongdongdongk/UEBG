@@ -44,9 +44,13 @@ void ABattleBlasterGameMode::BeginPlay()
 
 void ABattleBlasterGameMode::ActorDied(AActor* DeadActor)
 {
+	bool IsGameOver = false;
+	bool IsVictory = false;
+
 	if (DeadActor == Tank)
 	{
 		Tank->HandleDestruction();
+		IsGameOver = true;
 	}
 	else
 	{
@@ -58,8 +62,16 @@ void ABattleBlasterGameMode::ActorDied(AActor* DeadActor)
 			TowerCount--;
 			if (TowerCount == 0)
 			{
-				UE_LOG(LogTemp, Display, TEXT("All tower is Dead"))
+				IsGameOver = true;
+				IsVictory = true;
 			}
 		}
+	}
+
+	if (IsGameOver)
+	{
+		FString GameOverString;
+
+		IsVictory ? "Victory!" : "Defeat!";
 	}
 }
