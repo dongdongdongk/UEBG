@@ -43,13 +43,18 @@ void ABasePawn::Fire()
 	FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
 	FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
 
-	DrawDebugSphere(GetWorld(), SpawnLocation, 25.0f, 12, FColor::Red, false, 3.0f);
+	/*DrawDebugSphere(GetWorld(), SpawnLocation, 25.0f, 12, FColor::Red, false, 3.0f);*/
 
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
 	if (Projectile)
 	{
 		Projectile->SetOwner(this);
 	}
+}
+
+void ABasePawn::HnadleDestruction()
+{
+	UE_LOG(LogTemp, Display, TEXT("Base Pawn Destruction"));
 }
 
 

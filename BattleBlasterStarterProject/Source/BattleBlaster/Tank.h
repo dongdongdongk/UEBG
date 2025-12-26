@@ -63,8 +63,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	float TurnRate = 50.0f;
 
+	bool IsAlive = true;
+
+	APlayerController* PlayerController;
+
 	void MoveInput(const FInputActionValue& Value);
 
 	void TurnInput(const FInputActionValue& Value);
+
+	void HandleDestruction();
+	void SetPlayerEnabled(bool Enable);
 	
 };
