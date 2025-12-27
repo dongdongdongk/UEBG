@@ -23,6 +23,7 @@ void ATank::BeginPlay()
 			}
 		}
 	}
+	SetPlayerEnabled(false);
 }
 
 ATank::ATank()
