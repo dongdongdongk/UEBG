@@ -15,6 +15,9 @@ AProjectile::AProjectile()
 
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComp"));
 
+	TrailParticles = CreateDefaultSubobject<UNiagaraComponent>(TEXT("TrailParticles"));
+	TrailParticles->SetupAttachment(RootComponent);
+
 }
 
 // Called when the game starts or when spawned
@@ -23,6 +26,11 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+
+	if (LaunchSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), LaunchSound, GetActorLocation());
+	}
 	
 }
 
@@ -42,6 +50,17 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 		if (OtherActor && (OtherActor != MyOwner) && (OtherActor != this))
 		{
 			UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, UDamageType::StaticClass());
+
+			if (HitParticles)
+			{
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), HitParticles, GetActorLocation(), GetActorRotation());
+			}
+
+
+			if (HitSound)
+			{
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), HitSound, GetActorLocation());
+			}
 		}
 	}
 	Destroy();
